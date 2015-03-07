@@ -16,6 +16,7 @@ Texture::Texture(std::string ID, std::string file, int x, int y, int width, int 
     m_format = nullptr;
     m_access = nullptr;
     m_angle = 0.0;
+    m_alpha = 255;
     m_flip = SDL_FLIP_NONE;
     m_window_ID = window_ID;
     m_pivot_point.x = m_box.w / 2;
@@ -52,6 +53,7 @@ bool Texture::load() {
         // #TODO check why getting format doesn't work
         " | access: " << m_access << std::endl;
         // #TODO check why getting access doesn't work
+        set_blend_mode(SDL_BLENDMODE_BLEND);
         return true;
     }
 
@@ -83,4 +85,23 @@ void Texture::flip_horizontally() {
 
 void Texture::rotate(int angle) {
     set_angle(get_angle() + angle);
+}
+
+void Texture::set_alpha(Uint8 alpha) {
+    m_alpha = alpha;
+    SDL_SetTextureAlphaMod(m_texture, alpha);
+}
+
+Uint8 Texture::get_alpha() {
+    return m_alpha;
+}
+
+void Texture::set_color_modulation(Uint8 red, Uint8 green, Uint8 blue) {
+    //Modulate texture rgb
+    SDL_SetTextureColorMod( m_texture, red, green, blue );
+}
+
+void Texture::set_blend_mode(SDL_BlendMode blending) {
+    //Set blending function
+    SDL_SetTextureBlendMode( m_texture, blending );
 }

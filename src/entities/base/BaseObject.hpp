@@ -9,11 +9,11 @@
 
 
 enum COLLISION_TYPE {
-    NO_COLLISION = 0,
-    TOP_LEFT = 1,
-    TOP_RIGHT = 2,
-    BOTTOM_RIGHT = 3,
-    BOTTOM_LEFT = 4,
+    NO_COLLISION, NONE, NO = 0,
+    TOP_LEFT, LEFT_TOP, TopLeft, LeftTop, TOPLEFT, LEFTTOP = 1,
+    TOP_RIGHT, RIGHT_TOP = 2,
+    BOTTOM_RIGHT, RIGHT_BOTTOM = 3,
+    BOTTOM_LEFT, LEFT_BOTTOM = 4,
     IN, INSIDE = 5,
     OVER, OUT, ON= 6,
     TOP_OVER = 7,
@@ -63,6 +63,8 @@ public:
      * default parameter for collision type is ALL, so any collision type will return true
      * else false is returned. */
     virtual bool check_boxes_collision(BaseObject& second_object, COLLISION_TYPE type = ALL);
+    virtual SDL_Rect check_boxes_intersection(BaseObject& second_box);
+    virtual COLLISION_TYPE check_collision_type(BaseObject& second_box);
     virtual void destroy(void);
     ~BaseObject(void) {};
 protected:

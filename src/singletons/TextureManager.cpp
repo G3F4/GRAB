@@ -52,3 +52,7 @@ bool TextureManager::destroy(std::string ID) {
         return true;
     }
 }
+
+Texture &TextureManager::get(std::string ID) {
+    return *m_textures[ID];
+}

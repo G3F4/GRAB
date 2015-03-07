@@ -106,19 +106,19 @@ bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE ty
     if (x1 > x2 && y1 > y2 && x1 < x2 + w2 && y1 < y2 + h2) {
         if (x1 + w1 > x2 + w2) {
             if (y1 + h1 > y2 + h2) {
-                std::cout << stringify(LEFT_OVER) << std::endl;
-                return 1 == type || type == ALL;
+//                std::cout << stringify(TOP_LEFT) << std::endl;
+                return TOP_LEFT == type || type == ALL;
             } else {
-                std::cout << "LEFT_OVER" << std::endl;
-                return 10 == type || type == ALL;
+//                std::cout << "LEFT_OVER" << std::endl;
+                return LEFT_OVER == type || type == ALL;
             }
         } else {
             if (y1 + h1 > y2 + h2) {
-                std::cout << "TOP_OVER" << std::endl;
-                return 7 == type || type == ALL;
+//                std::cout << "TOP_OVER" << std::endl;
+                return TOP_OVER == type || type == ALL;
             } else {
-                std::cout << "OVER" << std::endl;
-                return 6 == type || type == ALL;
+//                std::cout << "OVER" << std::endl;
+                return OVER == type || type == ALL;
             }
         }
     }
@@ -133,19 +133,19 @@ bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE ty
     else if (x1 < x2 && y1 > y2 && x1 + w1 > x2 && y1 < y2 + h2) {
         if (x1 + w1 > x2 + w2) {
             if (y1 + h1 > y2 + h2) {
-                std::cout << "TOP_IN" << std::endl;
-                return 11 == type || type == ALL;
+//                std::cout << "TOP_IN" << std::endl;
+                return TOP_IN == type || type == ALL;
             } else {
-                std::cout << "HORIZONTAL" << std::endl;
-                return 15 == type || type == ALL;
+//                std::cout << "HORIZONTAL" << std::endl;
+                return HORIZONTAL == type || type == ALL;
             }
         } else {
             if (y1 + h1 > y2 + h2) {
-                std::cout << "TOP_RIGHT" << std::endl;
-                return 2 == type || type == ALL;
+//                std::cout << "TOP_RIGHT" << std::endl;
+                return TOP_RIGHT == type || type == ALL;
             } else {
-                std::cout << "RIGHT_OVER" << std::endl;
-                return 8 == type || type == ALL;
+//                std::cout << "RIGHT_OVER" << std::endl;
+                return RIGHT_OVER == type || type == ALL;
             }
         }
 
@@ -161,19 +161,19 @@ bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE ty
     else if (x1 < x2 && y1 < y2 && x1 < x2 + w2 && y1 + h1 > y2) {
         if (x1 + w1 > x2 + w2) {
             if (y1 + h1 > y2 + h2) {
-                std::cout << "IN" << std::endl;
-                return 5 == type || type == ALL;
+//                std::cout << "IN" << std::endl;
+                return IN == type || type == ALL;
             } else {
-                std::cout << "BOTTOM_IN" << std::endl;
-                return 13 == type || type == ALL;
+//                std::cout << "BOTTOM_IN" << std::endl;
+                return BOTTOM_IN == type || type == ALL;
             }
         } else {
             if (y1 + h1 > y2 + h2) {
-                std::cout << "RIGHT_IN" << std::endl;
-                return 12 == type || type == ALL;
+//                std::cout << "RIGHT_IN" << std::endl;
+                return RIGHT_IN == type || type == ALL;
             } else {
-                std::cout << "BOTTOM_RIGHT" << std::endl;
-                return 3 == type || type == ALL;
+//                std::cout << "BOTTOM_RIGHT" << std::endl;
+                return BOTTOM_RIGHT == type || type == ALL;
             }
         }
     }
@@ -188,21 +188,354 @@ bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE ty
     else if (x1 > x2 && y1 < y2 && x1 < x2 + w2 && y1 + h1 > y2) {
         if (x1 + w1 > x2 + w2) {
             if (y1 + h1 > y2 + h2) {
-                std::cout << "LEFT_IN" << std::endl;
-                return 14 == type || type == ALL;
+//                std::cout << "LEFT_IN" << std::endl;
+                return LEFT_IN == type || type == ALL;
             } else {
-                std::cout << "BOTTOM_LEFT" << std::endl;
-                return 4 == type || type == ALL;
+//                std::cout << "BOTTOM_LEFT" << std::endl;
+                return BOTTOM_LEFT == type || type == ALL;
             }
         } else {
             if (y1 + h1 > y2 + h2) {
-                std::cout << "VERTICAL" << std::endl;
-                return 16 == type || type == ALL;
+//                std::cout << "VERTICAL" << std::endl;
+                return VERTICAL == type || type == ALL;
             } else {
-                std::cout << "BOTTOM_OVER" << std::endl;
-                return 9 == type || type == ALL;
+//                std::cout << "BOTTOM_OVER" << std::endl;
+                return BOTTOM_OVER == type || type == ALL;
             }
         }
     }
     return 0;
+}
+
+SDL_Rect BaseObject::check_boxes_intersection(BaseObject &second_box) {
+    SDL_Rect intersection = {0, 0, 0, 0};
+    int collision_type = check_collision_type(second_box);
+    /* We are checking collision type for no collision now to safe space for unneeded variables */
+    if (collision_type == NO_COLLISION) {
+        return intersection;
+    }
+    /* We declare pointer to this for better reading and semantics */
+    BaseObject& first_box = *this;
+    int x1 = first_box.get_box()->x;
+    int x2 = second_box.get_box()->x;
+    int y1 = first_box.get_box()->y;
+    int y2 = second_box.get_box()->y;
+    int w1 = first_box.get_box()->w;
+    int w2 = second_box.get_box()->w;
+    int h1 = first_box.get_box()->h;
+    int h2 = second_box.get_box()->h;
+    /* first box further to top and left side of the window
+    *   _________
+    *   | 2  ___|____
+    *   |   | I |   |
+    *   |___|___|1  |
+    *       |_______|
+    *       TOP_LEFT
+    */
+    if (collision_type == TOP_LEFT) {
+        intersection.x = x1;
+        intersection.y = y1;
+        intersection.w = (x2 + w2) - w1;
+        intersection.h = (y2 + h2) - h1;
+        return intersection;
+    }
+    /* first box further to top and left side of the window
+    *  _________________
+    *  | 2 _________   |
+    *  |___|___I___|___|
+    *      |   1   |
+    *      |_______|
+    *      TOP_OVER INTERSECTION
+    */
+    if (collision_type == TOP_OVER) {
+        intersection.x = x1;
+        intersection.y = y1;
+        intersection.w = w1;
+        intersection.h = (y2 + h2) - y1;
+        return intersection;
+    }
+    /* first box further to top and left side of the window
+    *  _________________
+    *  | 2 _________   |
+    *  |   |   1   |   |
+    *  |   |_______|   |
+    *  |_______________|
+    *  IN INTERSECTION
+    */
+    if (collision_type == OVER) {
+        intersection.x = x1;
+        intersection.y = y1;
+        intersection.w = w1;
+        intersection.h = h1;
+        return intersection;
+    }
+    /* first box further to top and left side of the window
+    *  _________
+    *  | 2 ____|____
+    *  |   |I  |  1|
+    *  |   |___|___|
+    *  |_______|
+    *  LEFT_OVER INTERSECTION
+    */
+    if (collision_type == LEFT_OVER) {
+        intersection.x = x1;
+        intersection.y = y1;
+        intersection.w = (x2 + w2) - w1;
+        intersection.h = h1;
+        return intersection;
+    }
+    /* first box further to top and closer to left side of the window
+    *        _________
+    *   _____|___   2|
+    *   |1   | I|    |
+    *   |    |__|____|
+    *   |_______|
+    *   TOP_RIGHT
+    * */
+    if (collision_type == TOP_RIGHT) {
+        intersection.x = x2;
+        intersection.y = y1;
+        intersection.w = (x1 + w1) - x2;
+        intersection.h = (y2 + h2) - y1;
+        return intersection;
+    }
+    /* * * * * * * * * * * * * * * * * *
+    *       ________
+    *  _____|___  2|
+    *  |1   | I|   |
+    *  |____|__|   |
+    *       |______|
+    *      RIGHT_OVER
+    */
+    if (collision_type == RIGHT_OVER) {
+        intersection.x = x2;
+        intersection.y = y1;
+        intersection.w = (x1 + w1) - x2;
+        intersection.h = h1;
+        return intersection;
+    }
+    /*
+    *      _____
+    *  ____|_2_|____
+    *  |1  |___|   |
+    *  |           |
+    *  |___________|
+    *  TOP_IN
+    */
+    if (collision_type == TOP_IN) {
+        intersection.x = x2;
+        intersection.y = y1;
+        intersection.w = w2;
+        intersection.h = (y2 + h2) - y1;
+        return intersection;
+    }
+    /*
+    *      _____
+    *  ____|_2_|____
+    *  | 1 | I |   |
+    *  |___|___|___|
+    *      |___|
+    *  HORIZONTAL
+    */
+    if (collision_type == HORIZONTAL) {
+        intersection.x = x2;
+        intersection.y = y1;
+        intersection.w = w2;
+        intersection.h = h1;
+        return intersection;
+    }
+    /* * * * * * * * * * * *
+    *   _________          *
+    *   |1  ____|____      *
+    *   |   | I |   |      *
+    *   |___|___| 2 |      *
+    *       |_______|      *
+    *                      *
+    * * * BOTTOM_RIGHT * * */
+    if (collision_type == BOTTOM_RIGHT) {
+        intersection.x = x2;
+        intersection.y = y2;
+        intersection.w = (x1 + w1) - x2;
+        intersection.h = (y1 + h1) - y2;
+        return intersection;
+    }
+    /* * * * * * * * * * * *
+    *    ______________    *
+    *    | 1 ______   |    *
+    *    |   | 2  |   |    *
+    *    |   |____|   |    *
+    *    |____________|    *
+    *                      *
+    * * * * * IN * * * * * */
+    if (collision_type == IN) {
+        intersection.x = x2;
+        intersection.y = y2;
+        intersection.w = w2;
+        intersection.h = h2;
+        return intersection;
+    }
+    /* * * * * * * * * * * *
+    *     _____________    *
+    *     |     1     |    *
+    *     |   _____   |    *
+    *     |___|_2_|___|    *
+    *         |___|        *
+    *                      *
+    * * * * BOTTOM_IN * * */
+    if (collision_type == BOTTOM_IN) {
+        intersection.x = x2;
+        intersection.y = y2;
+        intersection.w = w2;
+        intersection.h = (y1 + h1) - y2;
+        return intersection;
+    }
+    /* * * * * * * * * * * *
+    *   ____________       *
+    *   |      ____|____   *
+    *   |  1   | I |  2|   *
+    *   |      |___|___|   *
+    *   |__________|       *
+    *                      *
+    * * * * RIGHT_IN * * * */
+    if (collision_type == RIGHT_IN) {
+        intersection.x = x2;
+        intersection.y = y2;
+        intersection.w = (x1 + w1) - x2;
+        intersection.h = h2;
+        return intersection;
+    }
+    /* * * * * * * * * * * *
+    *       _________      *
+    *   ____|____  1|      *
+    *   |   | I |   |      *
+    *   | 2 |___|___|      *
+    *   |_______|          *
+    *                      *
+    * * * BOTTOM_LEFT * * */
+    if (collision_type == BOTTOM_LEFT) {
+        intersection.x = x1;
+        intersection.y = y2;
+        intersection.w = (x2 + w2) - x1;
+        intersection.h = (y1 + h1) - y2;
+        return intersection;
+    }
+    /* * * * * * * * * * * *
+    *      _________       *
+    *  ____|_____1_|____   *
+    *  |   |   I   |   |   *
+    *  | 2 |_______|   |   *
+    *  |_______________|   *
+    *   BOTTOM_OVER        *
+    * * * BOTTOM_OVER * * */
+    if (collision_type == BOTTOM_OVER) {
+        intersection.x = x1;
+        intersection.y = y2;
+        intersection.w = w1;
+        intersection.h = (y1 + h1) - y2;
+        return intersection;
+    }
+    /* * * * * * * * * * * *
+    *       _________      *
+    *   ____|______1|____  *
+    *   |2  |   I   |   |  *
+    *   |___|_______|___|  *
+    *       |_______|      *
+    *                      *
+    * * * * VERTICAL * * * */
+    if (collision_type == VERTICAL) {
+        intersection.x = x2;
+        intersection.y = y1;
+        intersection.w = w1;
+        intersection.h = h2;
+        return intersection;
+    }
+    /* * * * * * * * * * * *
+    *      _____________   *
+    *  ____|____       |   *`
+    *  | 2 |   |   1   |   *
+    *  |___|___|       |   *
+    *      |___________|   *
+    *                      *
+    * * * * LEFT_IN * * * */
+    if (collision_type == LEFT_IN) {
+        intersection.x = x1;
+        intersection.y = y2;
+        intersection.w = (x2 + w2) - x1;
+        intersection.h = h2;
+        return intersection;
+    }
+    return intersection;
+}
+
+COLLISION_TYPE BaseObject::check_collision_type(BaseObject &second_box) {
+    BaseObject& first_box = *this;
+    int x1 = first_box.get_box()->x;
+    int x2 = second_box.get_box()->x;
+    int y1 = first_box.get_box()->y;
+    int y2 = second_box.get_box()->y;
+    int w1 = first_box.get_box()->w;
+    int w2 = second_box.get_box()->w;
+    int h1 = first_box.get_box()->h;
+    int h2 = second_box.get_box()->h;
+
+    if (x1 > x2 && y1 > y2 && x1 < x2 + w2 && y1 < y2 + h2) {
+        if (x1 + w1 > x2 + w2) {
+            if (y1 + h1 > y2 + h2) {
+                return TOP_LEFT;
+            } else {
+                return LEFT_OVER;
+            }
+        } else {
+            if (y1 + h1 > y2 + h2) {
+                return TOP_OVER;
+            } else {
+                return OVER;
+            }
+        }
+    }
+    else if (x1 < x2 && y1 > y2 && x1 + w1 > x2 && y1 < y2 + h2) {
+        if (x1 + w1 > x2 + w2) {
+            if (y1 + h1 > y2 + h2) {
+                return TOP_IN;
+            } else {
+                return HORIZONTAL;
+            }
+        } else {
+            if (y1 + h1 > y2 + h2) {
+                return TOP_RIGHT;
+            } else {
+                return RIGHT_OVER;
+            }
+        }
+    }
+    else if (x1 < x2 && y1 < y2 && x1 < x2 + w2 && y1 + h1 > y2) {
+        if (x1 + w1 > x2 + w2) {
+            if (y1 + h1 > y2 + h2) {
+                return IN;
+            } else {
+                return BOTTOM_IN;
+            }
+        } else {
+            if (y1 + h1 > y2 + h2) {
+                return RIGHT_IN;
+            } else {
+                return BOTTOM_RIGHT;
+            }
+        }
+    }
+    else if (x1 > x2 && y1 < y2 && x1 < x2 + w2 && y1 + h1 > y2) {
+        if (x1 + w1 > x2 + w2) {
+            if (y1 + h1 > y2 + h2) {
+                return LEFT_IN;
+            } else {
+                return BOTTOM_LEFT;
+            }
+        } else {
+            if (y1 + h1 > y2 + h2) {
+                return VERTICAL;
+            } else {
+                return BOTTOM_OVER;
+            }
+        }
+    }
 }

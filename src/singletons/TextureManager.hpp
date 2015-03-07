@@ -25,6 +25,7 @@ public:
     bool destroy(std::string ID);
     std::string get_folder() { return m_folder; }
     void set_folder(std::string folder) { m_folder = folder; }
+    Texture& get(std::string ID);
 protected:
 
 private:

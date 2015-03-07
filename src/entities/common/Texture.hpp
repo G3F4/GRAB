@@ -37,6 +37,13 @@ public:
     void rotate(int angle); /* Passing positive value will rotate clockwise, negatice oposite */
     SDL_RendererFlip get_flip() { return m_flip; }
     void set_flip(SDL_RendererFlip flip) { m_flip = flip; }
+    void set_alpha(Uint8 alpha);
+    Uint8 get_alpha();
+    //Set color modulation
+    void set_color_modulation( Uint8 red, Uint8 green, Uint8 blue );
+
+    //Set blending
+    void set_blend_mode( SDL_BlendMode blending );
 private:
     bool load(); /* method responsible */
 	std::string m_file;
@@ -47,6 +54,7 @@ private:
     SDL_RendererFlip m_flip;
     Uint32* m_format;
     int* m_access;
+    Uint8 m_alpha;
 };
 
 #endif /* TEXTURE_H_DEFINED */
