@@ -1,6 +1,5 @@
 #include "Application.hpp"
 
-
 std::unique_ptr<Application> Application::m_instance;
 std::once_flag Application::m_once_flag;
 
@@ -27,15 +26,15 @@ Application::~Application() {
     std::cout << "Application Manager destroyed!" << std::endl;
 }
 
-bool Application::create_window(std::string ID, int x, int y, int width, int height, bool state, Uint32 window_flags, Uint32 renderer_flags) {
+bool Application::create_window(std::string ID, std::string title, int x, int y, int width, int height, bool state, Uint32 window_flags, Uint32 renderer_flags) {
     if (m_windows.count(ID) > 0) {
         std::cout << "Window with ID: " << ID << " already exits!" << std::endl \
                     << "Please select other ID: ";
         std::string new_ID = "";
         std::cin >> new_ID;
-        create_window(new_ID, x, y, width, height, state, window_flags, renderer_flags);
+        create_window(new_ID, title, x, y, width, height, state, window_flags, renderer_flags);
     } else {
-        m_windows[ID] = new Window(ID, x, y, width, height, state, window_flags, renderer_flags);
+        m_windows[ID] = new Window(ID, title, x, y, width, height, state, window_flags, renderer_flags);
         // Every time we create first window we set it as default window
         if (m_windows.size() == 1) {
             m_default_window = m_windows[ID];
@@ -129,6 +128,7 @@ void Application::main_loop() {
     }
     if (m_autorender) {
         TextureManager::Instance().render_all();
+        TextManager::Instance().render_all();
     }
     present();
 }

@@ -25,53 +25,57 @@ SDL_Point* BaseObject::get_position() {
     return tmp;
 }
 
-void BaseObject::set_position(SDL_Point* p1) {
+BaseObject& BaseObject::set_position(SDL_Point* p1) {
     if (p1->x >= 0 && p1->y >= 0) {
         m_box.x = p1->x;
         m_box.y = p1->y;
     } else {
         std::cout << "x and y have to be positive numbers!" << std::endl;
     }
+    return *this;
 }
 
-void BaseObject::set_position(int x, int y) {
+BaseObject& BaseObject::set_position(int x, int y) {
     if (x >= 0 && y >= 0) {
         m_box.x = x;
         m_box.y = y;
     } else {
         std::cout << "x and y have to be positive numbers!" << std::endl;
     }
+    return *this;
 }
 
-void BaseObject::set_x_position(int x) {
+BaseObject& BaseObject::set_x_position(int x) {
     if (x >= 0) {
         m_box.x = x;
     } else {
         std::cout << "x have to be positive number" << std::endl;
     }
-
+    return *this;
 }
 
-void BaseObject::set_y_position(int y) {
+BaseObject& BaseObject::set_y_position(int y) {
     if (y >0) {
         m_box.y = y;
     } else {
         std::cout << "y have to be positive number" << std::endl;
     }
+    return *this;
 }
 
 void BaseObject::destroy(void) {
 //    BaseObject::~BaseObject(); #TODO implement working destroy metohod
 }
 
-void BaseObject::set_size(SDL_Point *p1, SDL_Point *p2) {
+BaseObject& BaseObject::set_size(SDL_Point *p1, SDL_Point *p2) {
     m_box.x = p1->x;
     m_box.y = p1->y;
-    m_box.w = labs(p2->x - p1->x);
-    m_box.h = labs(p2->y - p1->y);
+    m_box.w = (int)labs(p2->x - p1->x);
+    m_box.h = (int)labs(p2->y - p1->y);
+    return *this;
 }
 
-void BaseObject::set_position(int x, int y, int width, int height) {
+BaseObject& BaseObject::set_position(int x, int y, int width, int height) {
     if (x > 0 && y >0) {
         m_box.x = x;
         m_box.y = y;
@@ -82,6 +86,7 @@ void BaseObject::set_position(int x, int y, int width, int height) {
     }
     m_box.w = width;
     m_box.h = height;
+    return *this;
 }
 
 bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE type) {
@@ -106,26 +111,22 @@ bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE ty
     if (x1 > x2 && y1 > y2 && x1 < x2 + w2 && y1 < y2 + h2) {
         if (x1 + w1 > x2 + w2) {
             if (y1 + h1 > y2 + h2) {
-//                std::cout << stringify(TOP_LEFT) << std::endl;
                 return TOP_LEFT == type || type == ALL;
             } else {
-//                std::cout << "LEFT_OVER" << std::endl;
                 return LEFT_OVER == type || type == ALL;
             }
         } else {
             if (y1 + h1 > y2 + h2) {
-//                std::cout << "TOP_OVER" << std::endl;
                 return TOP_OVER == type || type == ALL;
             } else {
-//                std::cout << "OVER" << std::endl;
                 return OVER == type || type == ALL;
             }
         }
     }
     /* first box further to top and closer to left side of the window
     *        _________           ________           _____               _____
-    *   _____|___   2|      _____|___  2|       ____| 2 |____       ____| 2 |____
-    *   |1      |    |      |1      |   |       |1  |___|   |       | 1 |   |   |
+    *   _____|___   2|      _____|___  2|       ____| 2 |____       ____| 1 |____
+    *   |1      |    |      |1      |   |       |1  |___|   |       | 2 |   |   |
     *   |       |____|      |_______|   |       |           |       |___|   |___|
     *   |_______|                |______|       |___________|           |___|
     *   TOP_RIGHT               RIGHT_OVER      TOP_IN              HORIZONTAL
@@ -133,18 +134,14 @@ bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE ty
     else if (x1 < x2 && y1 > y2 && x1 + w1 > x2 && y1 < y2 + h2) {
         if (x1 + w1 > x2 + w2) {
             if (y1 + h1 > y2 + h2) {
-//                std::cout << "TOP_IN" << std::endl;
                 return TOP_IN == type || type == ALL;
             } else {
-//                std::cout << "HORIZONTAL" << std::endl;
                 return HORIZONTAL == type || type == ALL;
             }
         } else {
             if (y1 + h1 > y2 + h2) {
-//                std::cout << "TOP_RIGHT" << std::endl;
                 return TOP_RIGHT == type || type == ALL;
             } else {
-//                std::cout << "RIGHT_OVER" << std::endl;
                 return RIGHT_OVER == type || type == ALL;
             }
         }
@@ -161,18 +158,14 @@ bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE ty
     else if (x1 < x2 && y1 < y2 && x1 < x2 + w2 && y1 + h1 > y2) {
         if (x1 + w1 > x2 + w2) {
             if (y1 + h1 > y2 + h2) {
-//                std::cout << "IN" << std::endl;
                 return IN == type || type == ALL;
             } else {
-//                std::cout << "BOTTOM_IN" << std::endl;
                 return BOTTOM_IN == type || type == ALL;
             }
         } else {
             if (y1 + h1 > y2 + h2) {
-//                std::cout << "RIGHT_IN" << std::endl;
                 return RIGHT_IN == type || type == ALL;
             } else {
-//                std::cout << "BOTTOM_RIGHT" << std::endl;
                 return BOTTOM_RIGHT == type || type == ALL;
             }
         }
@@ -180,26 +173,23 @@ bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE ty
     /* first box closer to top and left side of the window
     *       _________           _________           _________           _____________
     *   ____|       |       ____|       |____   ____|       |____   ____|____       |
-    *   |   |   1   |       |   |   1   |   |   |2  |   1   |   |   | 2 |   |   1   |
+    *   |   |   1   |       |   |   1   |   |   |1  |   2   |   |   | 2 |   |   1   |
     *   | 2 |_______|       | 2 |_______|   |   |___|       |___|   |___|___|       |
     *   |_______|           |_______________|       |_______|           |___________|
-    *   BOTTOM_LEFT         BOTTOM_OVER         VERTICAL            LEFT_IN
+    *   BOTTOM_LEFT         BOTTOM_OVER             VERTICAL           LEFT_IN
     * */
     else if (x1 > x2 && y1 < y2 && x1 < x2 + w2 && y1 + h1 > y2) {
         if (x1 + w1 > x2 + w2) {
             if (y1 + h1 > y2 + h2) {
-//                std::cout << "LEFT_IN" << std::endl;
                 return LEFT_IN == type || type == ALL;
             } else {
-//                std::cout << "BOTTOM_LEFT" << std::endl;
                 return BOTTOM_LEFT == type || type == ALL;
             }
         } else {
             if (y1 + h1 > y2 + h2) {
-//                std::cout << "VERTICAL" << std::endl;
+                std::cout << "VERTICAL" << std::endl;
                 return VERTICAL == type || type == ALL;
             } else {
-//                std::cout << "BOTTOM_OVER" << std::endl;
                 return BOTTOM_OVER == type || type == ALL;
             }
         }
@@ -335,9 +325,9 @@ SDL_Rect BaseObject::check_boxes_intersection(BaseObject &second_box) {
     *  | 1 | I |   |
     *  |___|___|___|
     *      |___|
-    *  HORIZONTAL
+    *  VERTICAL
     */
-    if (collision_type == HORIZONTAL) {
+    if (collision_type == VERTICAL) {
         intersection.x = x2;
         intersection.y = y1;
         intersection.w = w2;
@@ -442,9 +432,9 @@ SDL_Rect BaseObject::check_boxes_intersection(BaseObject &second_box) {
     *       |_______|      *
     *                      *
     * * * * VERTICAL * * * */
-    if (collision_type == VERTICAL) {
-        intersection.x = x2;
-        intersection.y = y1;
+    if (collision_type == HORIZONTAL) {
+        intersection.x = x1;
+        intersection.y = y2;
         intersection.w = w1;
         intersection.h = h2;
         return intersection;
@@ -498,7 +488,7 @@ COLLISION_TYPE BaseObject::check_collision_type(BaseObject &second_box) {
             if (y1 + h1 > y2 + h2) {
                 return TOP_IN;
             } else {
-                return HORIZONTAL;
+                return VERTICAL;
             }
         } else {
             if (y1 + h1 > y2 + h2) {
@@ -532,7 +522,7 @@ COLLISION_TYPE BaseObject::check_collision_type(BaseObject &second_box) {
             }
         } else {
             if (y1 + h1 > y2 + h2) {
-                return VERTICAL;
+                return HORIZONTAL;
             } else {
                 return BOTTOM_OVER;
             }

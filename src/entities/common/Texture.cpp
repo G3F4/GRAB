@@ -9,12 +9,12 @@
  * - 3rd and 4th parameters are position of left-upper corner of the window ( x and y )
  * - 5th and 6th parameters are dimensions of object. ( width and height )
  * */
-Texture::Texture(std::string ID, std::string file, int x, int y, int width, int height, std::string window_ID, bool state):
-                BaseObject(ID,x,y,width,height,state), m_file(file)
+Texture::Texture(std::string ID, int x, int y, int width, int height, std::string window_ID, bool state):
+                BaseObject(ID,x,y,width,height,state)
 {
     m_texture = nullptr;
-    m_format = nullptr;
-    m_access = nullptr;
+    m_format = SDL_PIXELFORMAT_UNKNOWN;
+    m_access = SDL_TEXTUREACCESS_TARGET;
     m_angle = 0.0;
     m_alpha = 255;
     m_flip = SDL_FLIP_NONE;
@@ -22,41 +22,25 @@ Texture::Texture(std::string ID, std::string file, int x, int y, int width, int 
     m_pivot_point.x = m_box.w / 2;
     m_pivot_point.y = m_box.h / 2;
      // has to be called always after initialization of ALL FIELDS!!
-    if (!load()) {
-        std::cout << "Texture " << m_ID << " not loaded." << std::endl;
-    }
+    load();
 }
 
 bool Texture::load() {
     if (m_window_ID == "default") {
         m_window_ID = Application::Instance().get_default_window()->get_ID();
     }
-    m_texture = IMG_LoadTexture(Application::Instance().get_window(m_window_ID)->get_renderer(), m_file.c_str());
-    if (m_texture == NULL) {
-        std::cout << IMG_GetError() << std::endl;
+    if (m_texture == SDL_CreateTexture(Application::Instance().get_window(m_window_ID)->get_renderer(), m_format, m_access, m_box.w, m_box.h)) {
+        std::cout << SDL_GetError() << std::endl;
         return false;
-    } else {
-        if (m_box.w == 0 || m_box.h == 0) {
-            if ( SDL_QueryTexture(m_texture, m_format, m_access, &m_box.w, &m_box.h) != 0) {
-                std::cout << SDL_GetError() << std::endl;
-                SDL_ClearError();
-            }
-        } else {
-            if ( SDL_QueryTexture(m_texture, m_format, m_access, NULL, NULL) != 0) {
-                std::cout << SDL_GetError() << std::endl;
-                SDL_ClearError();
-            }
-        }
-        std::cout << "Texture loaded. Source:  " << m_file << \
-        " | box (x, y): (" << m_box.x << ", " << m_box.y << ") | box (w,h): (" << m_box.w << ", " << m_box.h << ")" << \
-        " | format: " << m_format << \
-        // #TODO check why getting format doesn't work
-        " | access: " << m_access << std::endl;
-        // #TODO check why getting access doesn't work
-        set_blend_mode(SDL_BLENDMODE_BLEND);
-        return true;
     }
-
+    std::cout << "Texture Created. " << \
+    " | box (x, y): (" << m_box.x << ", " << m_box.y << ") | box (w,h): (" << m_box.w << ", " << m_box.h << ")" << \
+    " | format: " << m_format << \
+    // #TODO check why getting format doesn't work
+    " | access: " << m_access << std::endl;
+    // #TODO check why getting access doesn't work
+    set_blend_mode(SDL_BLENDMODE_BLEND);
+    return true;
 }
 
 void Texture::render() {

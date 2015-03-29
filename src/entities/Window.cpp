@@ -4,10 +4,11 @@
 #include "Window.hpp"
 
 
-Window::Window(std::string ID, int x, int y, int width, int height, bool state, Uint32 window_flags, Uint32 renderer_flags):
-        BaseObject(ID, x, y, width, height, state)
+Window::Window(std::string ID, std::string title, int x, int y, int width, int height, bool state, Uint32 window_flags, Uint32 renderer_flags):
+        BaseObject(ID, x, y, width, height, state),
+        m_title(title)
 {
-    m_window = SDL_CreateWindow(m_ID.c_str(), m_box.x, m_box.y, m_box.w, m_box.h, window_flags);
+    m_window = SDL_CreateWindow(m_title.c_str(), m_box.x, m_box.y, m_box.w, m_box.h, window_flags);
     if ( m_window != NULL) {
         visible = window_flags != SDL_WINDOW_HIDDEN;
         std::cout << "SDL_Window created!" << std::endl;
@@ -24,11 +25,8 @@ Window::Window(std::string ID, int x, int y, int width, int height, bool state, 
 }
 
 void Window::set_title(std::string title) {
-    SDL_SetWindowTitle(m_window, title.c_str());
-}
-
-std::string Window::get_title() {
-    return SDL_GetWindowTitle(m_window);
+    m_title = title;
+    SDL_SetWindowTitle(m_window, m_title.c_str());
 }
 
 SDL_Renderer *Window::get_renderer() {

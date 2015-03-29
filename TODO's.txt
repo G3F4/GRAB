@@ -1,0 +1,3 @@
+1. Primitive drawing. Rect, triangle, circle, line, and random
+2. Text manager
+3. External application configuration. Some kind of config files

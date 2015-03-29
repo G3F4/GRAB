@@ -9,6 +9,7 @@
 
 #include "../entities/Window.hpp"
 #include "TextureManager.hpp"
+#include "TextManager.hpp"
 #include "Events.hpp"
 #include <memory>
 #include <mutex>
@@ -19,14 +20,15 @@ class Application
 {
 public:
     static Application& Instance();
-    bool create_window(std::string ID = "GRAB Application",
-            int x = 0,
-            int y = 0,
-            int width = 800,
-            int height = 600,
-            bool state = true,
-            Uint32 window_flags = SDL_WINDOW_SHOWN,
-            Uint32 renderer_flags = SDL_RENDERER_ACCELERATED );
+    bool create_window(std::string ID = "default",
+                       std::string title = "Unnamed window",
+                       int x = 0,
+                       int y = 0,
+                       int width = 800,
+                       int height = 600,
+                       bool state = true,
+                       Uint32 window_flags = SDL_WINDOW_SHOWN,
+                       Uint32 renderer_flags = SDL_RENDERER_ACCELERATED );
     Window* get_window(std::string ID);
     std::map<std::string, Window*> get_windows();   // useful for iterating through all windows manager by application
     void hide();                                    // hide all windows

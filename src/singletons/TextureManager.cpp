@@ -26,7 +26,7 @@ void TextureManager::render_all() {
     }
 }
 
-Texture *TextureManager::get_texture(std::string ID) {
+Sprite *TextureManager::get_texture(std::string ID) {
     return m_textures[ID];
 }
 
@@ -39,12 +39,12 @@ void TextureManager::render_window(std::string ID) {
 }
 
 bool TextureManager::load(std::string ID, std::string file, int x, int y, int width, int height, std::string window_ID, bool state) {
-    m_textures[ID] = new Texture(ID, m_folder + file, x, y, width, height, window_ID, state);
+    m_textures[ID] = new Sprite(ID, m_folder + file, x, y, width, height, window_ID, state);
 }
 
 bool TextureManager::destroy(std::string ID) {
     if (m_textures.count(ID) == 0) {
-        std::cout << "There is no Texture with given ID: " << ID << "." << std::endl;
+        std::cout << "There is no Sprite with given ID: " << ID << "." << std::endl;
         return false;
     } else {
         m_textures[ID]->destroy();
@@ -53,6 +53,6 @@ bool TextureManager::destroy(std::string ID) {
     }
 }
 
-Texture &TextureManager::get(std::string ID) {
+Sprite &TextureManager::get(std::string ID) {
     return *m_textures[ID];
 }

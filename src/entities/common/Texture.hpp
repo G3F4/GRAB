@@ -13,7 +13,6 @@
 class Texture: public BaseObject {
 public:
 	Texture(std::string ID,
-            std::string file = "",
             int x = 0,
             int y = 0,
             int width = 0,
@@ -35,26 +34,24 @@ public:
     void flip_horizontally(); /* flip Texture horizontally */
     void flip_vertiacally(); /* flip Texture vertically */
     void rotate(int angle); /* Passing positive value will rotate clockwise, negatice oposite */
-    SDL_RendererFlip get_flip() { return m_flip; }
-    void set_flip(SDL_RendererFlip flip) { m_flip = flip; }
-    void set_alpha(Uint8 alpha);
-    Uint8 get_alpha();
-    //Set color modulation
-    void set_color_modulation( Uint8 red, Uint8 green, Uint8 blue );
-
-    //Set blending
-    void set_blend_mode( SDL_BlendMode blending );
-private:
-    bool load(); /* method responsible */
-	std::string m_file;
-    SDL_Texture* m_texture;
-    std::string m_window_ID; // ID of window to render
+    SDL_RendererFlip get_flip() { return m_flip; } /* check Texture flip */
+    void set_flip(SDL_RendererFlip flip) { m_flip = flip; } /* flip Texture - horizontal, vertical or none */
+    void set_alpha(Uint8 alpha); /* set alpha level (transparency) of Texture */
+    Uint8 get_alpha(); /* get alpha level (transparency) of Texture */
+    void set_color_modulation( Uint8 red, Uint8 green, Uint8 blue ); /* set color modulation of Texture */
+    void set_blend_mode( SDL_BlendMode blending ); /* set blending mode of Texture */
+protected:
+    virtual bool load(); /* method responsible creating empty texture */
+	std::string m_file; /* string storing file name with extension */
+    SDL_Texture* m_texture; /* pointer to SDL_Texture(basically it's bitmap) */
+    /* #TODO determine if storing reference to Window object is better than storing it's name */
+    std::string m_window_ID; /* string storing name of Window which Texture will be rendered to */
     double m_angle; // #TODO add angle, flip and pivot point functionality
-    SDL_Point m_pivot_point ;
-    SDL_RendererFlip m_flip;
-    Uint32* m_format;
-    int* m_access;
-    Uint8 m_alpha;
+    SDL_Point m_pivot_point; /* pivot point of rotating Texture */
+    SDL_RendererFlip m_flip; /* flip flag */
+    Uint32 m_format; /* pixel format */
+    int m_access; /* pixel access */
+    Uint8 m_alpha; /* alpha level */
 };
 
 #endif /* TEXTURE_H_DEFINED */

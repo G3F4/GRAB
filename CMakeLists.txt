@@ -9,10 +9,13 @@ set(SOURCE_FILES
     src/entities/base/BaseObject.cpp
     src/entities/Window.cpp
     src/entities/common/Texture.cpp
+    src/entities/common/TextObject.cpp
+    src/entities/Sprite.cpp
 
     src/singletons/Application.cpp
     src/singletons/TextureManager.cpp
     src/singletons/Events.cpp
+    src/singletons/TextManager.cpp
 
     main.cpp
     )
