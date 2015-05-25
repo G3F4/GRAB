@@ -112,9 +112,10 @@ void Window::set_position(int x, int y, int width, int height) {
     SDL_SetWindowPosition(m_window, m_box.x, m_box.y);
 }
 
-void Window::set_width(int width) {
+Window& Window::set_width(int width) {
     BaseObject::set_width(width);
     SDL_SetWindowSize(m_window, m_box.w, m_box.h);
+    return *this;
 }
 
 void Window::set_height(int height) {

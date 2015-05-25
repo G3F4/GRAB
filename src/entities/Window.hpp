@@ -34,7 +34,7 @@ public:
     void show();
     bool is_visible() { return visible; }
     std::string get_title() { return m_title; }
-    virtual void set_width(int width);
+    virtual Window& set_width(int width);
     virtual void set_height(int height);
     virtual void set_x_position(int x);
     virtual void set_y_position(int y);

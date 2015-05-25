@@ -17,7 +17,7 @@ set(SOURCE_FILES
     src/singletons/Events.cpp
     src/singletons/TextManager.cpp
 
-    main.cpp
+    demo/main.cpp
     )
 
 add_executable(GRAB ${SOURCE_FILES})

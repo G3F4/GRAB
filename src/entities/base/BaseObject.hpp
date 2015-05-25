@@ -44,7 +44,7 @@ public:
     virtual SDL_Rect* get_box() { return &m_box; }
     virtual int get_width(void) { return m_box.w; }
     virtual int get_height(void) { return m_box.h; }
-    BaseObject& set_width(int width) { m_box.w = width; return *this; }
+    virtual BaseObject& set_width(int width) { m_box.w = width; return *this; }
     BaseObject& set_height(int height) { m_box.h = height; return *this; }
     virtual SDL_Point* get_position();
     BaseObject& set_position(SDL_Point* p1);

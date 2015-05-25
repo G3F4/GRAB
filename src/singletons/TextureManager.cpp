@@ -38,8 +38,9 @@ void TextureManager::render_window(std::string ID) {
     }
 }
 
-bool TextureManager::load(std::string ID, std::string file, int x, int y, int width, int height, std::string window_ID, bool state) {
+Sprite& TextureManager::load(std::string ID, std::string file, int x, int y, int width, int height, std::string window_ID, bool state) {
     m_textures[ID] = new Sprite(ID, m_folder + file, x, y, width, height, window_ID, state);
+    return *m_textures[ID];
 }
 
 bool TextureManager::destroy(std::string ID) {

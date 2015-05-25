@@ -24,6 +24,7 @@ bool TextObject::create() {
         return false;
     }
     SDL_QueryTexture(m_texture, NULL, NULL, &m_box.w, &m_box.h);
+    set_size(m_size);
     return true;
 }
 
@@ -44,5 +45,15 @@ void TextObject::set_color(SDL_Color color) {
 
 void TextObject::set_color(Uint8 R, Uint8 G, Uint8 B) {
     m_color = {R, G, B};
+    create();
+}
+
+TextObject &TextObject::set_size(int size) {
+    //TTF_SizeText(m_font, m_text, )
+    return *this;
+}
+
+void TextObject::set_text(std::string text) {
+    m_text = text;
     create();
 }
