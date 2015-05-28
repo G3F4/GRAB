@@ -15,6 +15,7 @@ public:
 	static Events& Instance(void);
 	void handle(void);
 	bool key_pressed(std::string key);
+	bool key_pressing(std::string key);
 	bool mouse_clicked(std::string button = "left");
 	bool mouse_released(void);
 	virtual ~Events(void);

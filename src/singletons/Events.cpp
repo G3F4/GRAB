@@ -37,6 +37,8 @@ bool Events::key_pressed(std::string key) {
             }
         }
     }
+	if(m_keyboard_state[key])
+		std::cout << "X";
 }
 
 void Events::reset_key_state(void) {
@@ -109,4 +111,14 @@ void Events::handle(void) {
 				break;
 		}
 	}
+}
+
+bool Events::key_pressing(std::string key) {
+	//check if any key has pressed state
+	if (key.empty()) {
+		return false;
+	} else {
+		m_keyboard_state[key];
+	}
+	return false;
 }
