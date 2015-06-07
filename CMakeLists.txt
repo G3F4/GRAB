@@ -17,10 +17,10 @@ set(SOURCE_FILES
     src/singletons/Events.cpp
     src/singletons/TextManager.cpp
 
-    demo/main.cpp
+    main.cpp
     )
 
-add_executable(GRAB ${SOURCE_FILES})
+add_executable(GRAB ${SOURCE_FILES} demo/CollisionBoard.cpp demo/CollisionBoard.h)
 
 INCLUDE(FindPkgConfig)
 

@@ -7,10 +7,10 @@
 #include "src/singletons/TextManager.hpp"
 
 
-Application& APP = Application::Instance();
-Events& EVT = Events::Instance();
-TextureManager& GFX = TextureManager::Instance();
-TextManager& TXT = TextManager::Instance();
+static Application& APP = Application::Instance();
+static Events& EVT = Events::Instance();
+static TextureManager& GFX = TextureManager::Instance();
+static TextManager& TXT = TextManager::Instance();
 
 
 #endif /* DEFINE_GRAB_HPP */

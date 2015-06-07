@@ -12,19 +12,18 @@
 
 class Events {
 public:
-	static Events& Instance(void);
-	void handle(void);
+	static Events& Instance();
+	void handle();
 	bool key_pressed(std::string key);
 	bool key_pressing(std::string key);
 	bool mouse_clicked(std::string button = "left");
-	bool mouse_released(void);
-	virtual ~Events(void);
+	// #TODO zaimplementować
+	//bool mouse_released();
+	~Events();
     Events();
 private:
-	void reset_mouse_state(void);
-	void reset_key_state(void);
-	// Events(const Events& src) {};
-	// Events& operator=(const Events& rhs) {};
+	void reset_mouse_state();
+	void reset_key_state();
 	SDL_Event m_event;
 	static std::unique_ptr<Events> m_instance;
 	static std::once_flag m_once_flag;

@@ -19,7 +19,7 @@ TextManager::TextManager(void) {
         std::cout << "TTF inited." << std::endl;
     }
     std::string font_path = m_font_folder + DEFAULT_FONT_FILE;
-    m_fonts[DEFAULT_FONT_NAME] = TTF_OpenFont(font_path.c_str(), 16);
+    m_fonts[DEFAULT_FONT_NAME] = TTF_OpenFont(font_path.c_str(), 24);
     if (m_fonts[DEFAULT_FONT_NAME] == NULL) {
         std::cout << TTF_GetError() << std::endl;
     } else {

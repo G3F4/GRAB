@@ -165,7 +165,7 @@ bool BaseObject::check_boxes_collision(BaseObject& second_box, COLLISION_TYPE ty
         } else {
             if (y1 + h1 > y2 + h2) {
                 return RIGHT_IN == type || type == ALL;
-            } else {
+            } else if (x1 + w1 > x2){
                 return BOTTOM_RIGHT == type || type == ALL;
             }
         }
@@ -508,7 +508,7 @@ COLLISION_TYPE BaseObject::check_collision_type(BaseObject &second_box) {
         } else {
             if (y1 + h1 > y2 + h2) {
                 return RIGHT_IN;
-            } else {
+            } else if (x1 + w1 > x2){
                 return BOTTOM_RIGHT;
             }
         }

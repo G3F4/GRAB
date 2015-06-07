@@ -10,13 +10,13 @@ Events& Events::Instance() {
 	return *m_instance.get();
 }
 
-Events::Events(void) {
+Events::Events() {
     std::cout << "Events singelton created." << std::endl;
     m_keys_states = 0;
     m_mouse_buttons_states = 0;
 }
 
-Events::~Events(void) {
+Events::~Events() {
     std::cout << "Events singleton destroyed." << std::endl;
 }
 
@@ -37,12 +37,10 @@ bool Events::key_pressed(std::string key) {
             }
         }
     }
-	if(m_keyboard_state[key])
-		std::cout << "X";
 }
 
-void Events::reset_key_state(void) {
-	// iterating througth m_keyboard_state to check which button released
+void Events::reset_key_state() {
+	// iterating through m_keyboard_state to check which button released
 	// if key state is 0 it means the button was released
 	// if so we change the state of proper key in m_keyboard_state to false
 	for (auto key : m_keyboard_state) {
@@ -77,11 +75,11 @@ bool Events::mouse_clicked(std::string button) {
 	return false;
 }
 
-void Events::reset_mouse_state(void) {
+void Events::reset_mouse_state() {
 	m_mouse_state[0] = m_mouse_state[1] = m_mouse_state[2] = m_mouse_state[3] = false;
 }
 
-void Events::handle(void) {
+void Events::handle() {
 	while (SDL_PollEvent(&m_event)) {
 		switch (m_event.type) {
 			case SDL_QUIT:
@@ -117,3 +115,4 @@ bool Events::key_pressing(std::string key) {
 	key_pressed(key);
 	return m_keyboard_state[key] ? true : false;
 }
+

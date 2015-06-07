@@ -54,6 +54,6 @@ bool TextureManager::destroy(std::string ID) {
     }
 }
 
-Sprite &TextureManager::get(std::string ID) {
+Sprite& TextureManager::get(std::string ID) {
     return *m_textures[ID];
 }
