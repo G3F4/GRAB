@@ -45,19 +45,25 @@ public:
     virtual int get_width(void) { return m_box.w; }
     virtual int get_height(void) { return m_box.h; }
     virtual BaseObject& set_width(int width) { m_box.w = width; return *this; }
-    BaseObject& set_height(int height) { m_box.h = height; return *this; }
+    virtual BaseObject& set_height(int height) { m_box.h = height; return *this; }
     virtual SDL_Point* get_position();
-    BaseObject& set_position(SDL_Point* p1);
-    BaseObject& set_size(SDL_Point* p1, SDL_Point* p2);
-    BaseObject&set_position(int x, int y);
-    BaseObject& set_position(int x, int y, int width, int height);
+    virtual BaseObject& set_position(SDL_Point* p1);
+    virtual BaseObject& set_size(SDL_Point* p1, SDL_Point* p2);
+    virtual BaseObject& set_position(int x, int y);
+    virtual BaseObject& set_position(int x, int y, int width, int height);
     virtual int get_x_position(void) { return m_box.x; }
     virtual int get_y_position(void) { return m_box.y; }
-    BaseObject& set_x_position(int x);
-    BaseObject& set_y_position(int y);
+    virtual BaseObject& set_x_position(int x);
+    virtual BaseObject& set_y_position(int y);
+    virtual BaseObject& move_horizontal(int x);
+    virtual BaseObject& move_vertical(int x);
+    virtual BaseObject& move_left(int x);
+    virtual BaseObject& move_right(int x);
+    virtual BaseObject& move_up(int x);
+    virtual BaseObject& move_bottom(int x);
     virtual bool is_active(void) { return m_state; }
-    BaseObject& enable(void) { m_state = true; return *this; }
-    BaseObject& disable(void) { m_state = false; return *this; }
+    virtual BaseObject& enable(void) { m_state = true; return *this; }
+    virtual BaseObject& disable(void) { m_state = false; return *this; }
     /* check if object is collided with passed object in certain configuration
      * there is 18 type of collision type - see above for enum
      * default parameter for collision type is ALL, so any collision type will return true

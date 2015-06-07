@@ -20,6 +20,9 @@ public:
         int height = 0,
         std::string window_ID = "default",
         bool state = true);
+
+    std::string get_file() { return m_file; } /* return source file name with extension */
+    void set_file(std::string file) { m_file = file; } /* set source file for Texture object */
 protected:
     virtual bool load();
 private:

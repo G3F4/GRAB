@@ -529,3 +529,33 @@ COLLISION_TYPE BaseObject::check_collision_type(BaseObject &second_box) {
         }
     }
 }
+
+BaseObject &BaseObject::move_horizontal(int x) {
+    set_x_position(get_x_position() + x);
+    return *this;
+}
+
+BaseObject &BaseObject::move_vertical(int x) {
+    set_y_position(get_y_position() - x);
+    return *this;
+}
+
+BaseObject &BaseObject::move_left(int x) {
+    move_horizontal(-x);
+    return *this;
+}
+
+BaseObject &BaseObject::move_right(int x) {
+    move_horizontal(x);
+    return *this;
+}
+
+BaseObject &BaseObject::move_up(int x) {
+    move_vertical(x);
+    return *this;
+}
+
+BaseObject &BaseObject::move_bottom(int x) {
+    move_vertical(-x);
+    return *this;
+}

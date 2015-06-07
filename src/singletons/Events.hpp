@@ -32,6 +32,7 @@ private:
 	Uint32 m_mouse_buttons_states;
 	bool m_mouse_state[4] = { false };
 	std::map<std::string, bool>m_keyboard_state;
+
 };
 
 #endif /* EVENTS_H_DEFINED */

@@ -21,27 +21,27 @@ public:
             bool state = 0,                                 // and keep it hidden till all needed resources are loaded
             Uint32 window_flags = SDL_WINDOW_SHOWN,
             Uint32 renderer_flags = SDL_RENDERER_ACCELERATED);
-    void set_title(std::string title);
+    Window& set_title(std::string title);
     SDL_Window* get_window();
     SDL_Renderer* get_renderer();
-    void set_color(SDL_Color);
+    Window& set_color(SDL_Color);
     SDL_Color get_color();
-    void clear();
-    void present();
-    void minimalize();
-    void maximalize();
-    void hide();
-    void show();
+    Window& clear();
+    Window& present();
+    Window& minimalize();
+    Window& maximalize();
+    Window& hide();
+    Window& show();
     bool is_visible() { return visible; }
     std::string get_title() { return m_title; }
     virtual Window& set_width(int width);
-    virtual void set_height(int height);
-    virtual void set_x_position(int x);
-    virtual void set_y_position(int y);
-    virtual void set_position(SDL_Point* p1);
-    virtual void set_size(SDL_Point* p1, SDL_Point* p2);
-    virtual void set_position(int x, int y);
-    virtual void set_position(int x, int y, int width, int height);
+    virtual Window& set_height(int height);
+    virtual Window& set_x_position(int x);
+    virtual Window& set_y_position(int y);
+    virtual Window& set_position(SDL_Point* p1);
+    virtual Window& set_size(SDL_Point* p1, SDL_Point* p2);
+    virtual Window& set_position(int x, int y);
+    virtual Window& set_position(int x, int y, int width, int height);
     ~Window();
 protected:
 

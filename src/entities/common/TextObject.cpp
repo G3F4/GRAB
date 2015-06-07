@@ -49,7 +49,7 @@ void TextObject::set_color(Uint8 R, Uint8 G, Uint8 B) {
 }
 
 TextObject &TextObject::set_size(int size) {
-    //TTF_SizeText(m_font, m_text, )
+    //#TODO zrobic
     return *this;
 }
 

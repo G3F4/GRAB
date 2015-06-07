@@ -17,30 +17,41 @@ int main( int argc, char * argv[] )
     TXT.get_text("collision")->set_x_position(100).set_y_position(100);
     GFX.load("obj1", "no-img.png", 100, 100, 100, 100);
     GFX.load("obj2", "no-img.png", 300, 300, 200, 200).set_alpha(100);
-    int i = 0;
+    int i = 100;
+    bool chuj = false;
+    int j = GFX.get("obj1").get_x_position();
     while(APP.running()) {
 
         if (EVT.key_pressed("a")) {
             TXT.get_text("collision")->set_size(i++);
+            chuj = true;
         }
         if (EVT.key_pressed("s")) {
             TXT.get_text("collision")->set_size(i--);
+            chuj = false;
         }
-//        if (EVT.key_pressed("LEFT")) {
-//            i++;
-//            GFX.get("obj1").set_x_position(i);
-//        }
-        if (EVT.key_pressed("LEFT")) {
-            GFX.get("obj1").set_x_position(GFX.get("obj1").get_x_position() - 10);
+
+        if (EVT.key_pressing("LEFT")) {
+            j--;
+//            GFX.get("obj1").set_x_position(GFX.get("obj1").get_x_position() - 1);
+//            GFX.get("obj1").move_left(1);
+            GFX.get("obj1").move_horizontal(-1);
         }
-        else if (EVT.key_pressed("RIGHT")) {
-            GFX.get("obj1").set_x_position(GFX.get("obj1").get_x_position() + 10);
+        if (EVT.key_pressing("RIGHT")) {
+            j++;
+//            GFX.get("obj1").set_x_position(GFX.get("obj1").get_x_position() + 1);
+//            GFX.get("obj1").move_right(1);
+            GFX.get("obj1").move_horizontal(1);
         }
-        else if (EVT.key_pressed("UP")) {
-            GFX.get("obj1").set_y_position(GFX.get("obj1").get_y_position() - 10);
+        else if (EVT.key_pressing("UP")) {
+//            GFX.get("obj1").set_y_position(GFX.get("obj1").get_y_position() - 10);
+//            GFX.get("obj1").move_vertical(1);
+            GFX.get("obj1").move_up(1);
         }
-        else if (EVT.key_pressed("DOWN")) {
-            GFX.get("obj1").set_y_position(GFX.get("obj1").get_y_position() + 10);
+        else if (EVT.key_pressing("DOWN")) {
+//            GFX.get("obj1").set_y_position(GFX.get("obj1").get_y_position() + 10);
+//            GFX.get("obj1").move_vertical(-1);
+            GFX.get("obj1").move_up(-1);
         }
         switch (GFX.get("obj1").check_collision_type(GFX.get("obj2"))) {
             case NO_COLLISION:

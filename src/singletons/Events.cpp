@@ -114,11 +114,6 @@ void Events::handle(void) {
 }
 
 bool Events::key_pressing(std::string key) {
-	//check if any key has pressed state
-	if (key.empty()) {
-		return false;
-	} else {
-		m_keyboard_state[key];
-	}
-	return false;
+	key_pressed(key);
+	return m_keyboard_state[key] ? true : false;
 }

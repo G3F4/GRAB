@@ -24,9 +24,10 @@ Window::Window(std::string ID, std::string title, int x, int y, int width, int h
     }
 }
 
-void Window::set_title(std::string title) {
+Window& Window::set_title(std::string title) {
     m_title = title;
     SDL_SetWindowTitle(m_window, m_title.c_str());
+    return *this;
 }
 
 SDL_Renderer *Window::get_renderer() {
@@ -42,39 +43,46 @@ SDL_Window *Window::get_window() {
     return m_window;
 }
 
-void Window::set_color(SDL_Color color) {
+Window& Window::set_color(SDL_Color color) {
     m_color = color;
     SDL_SetRenderDrawColor(m_renderer, m_color.r, m_color.g, m_color.b, m_color.a);
+    return *this;
 }
 
 SDL_Color Window::get_color() {
     return m_color;
 }
 
-void Window::clear() {
+Window& Window::clear() {
     SDL_RenderClear(m_renderer);
+    return *this;
 }
 
-void Window::present() {
+Window& Window::present() {
     SDL_RenderPresent(m_renderer);
+    return *this;
 }
 
-void Window::minimalize() {
+Window& Window::minimalize() {
     SDL_MinimizeWindow(m_window);
+    return *this;
 }
 
-void Window::maximalize() {
+Window& Window::maximalize() {
     SDL_MaximizeWindow(m_window);
+    return *this;
 }
 
-void Window::hide() {
+Window& Window::hide() {
     visible = false;
     SDL_HideWindow(m_window);
+    return *this;
 }
 
-void Window::show() {
+Window& Window::show() {
     visible = true;
     SDL_ShowWindow(m_window);
+    return *this;
 }
 
 Window::~Window() {
@@ -82,34 +90,40 @@ Window::~Window() {
     SDL_DestroyWindow(m_window);
 }
 
-void Window::set_x_position(int x) {
+Window& Window::set_x_position(int x) {
     BaseObject::set_x_position(x);
     SDL_SetWindowPosition(m_window, m_box.x, m_box.y);
+    return *this;
 }
 
-void Window::set_y_position(int y) {
+Window& Window::set_y_position(int y) {
     BaseObject::set_y_position(y);
     SDL_SetWindowPosition(m_window, m_box.x, m_box.y);
+    return *this;
 }
 
-void Window::set_position(SDL_Point *p1) {
+Window& Window::set_position(SDL_Point *p1) {
     BaseObject::set_position(p1);
     SDL_SetWindowPosition(m_window, m_box.x, m_box.y);
+    return *this;
 }
 
-void Window::set_size(SDL_Point *p1, SDL_Point *p2) {
+Window& Window::set_size(SDL_Point *p1, SDL_Point *p2) {
     BaseObject::set_size(p1, p2);
     SDL_SetWindowSize(m_window, m_box.w, m_box.h);
+    return *this;
 }
 
-void Window::set_position(int x, int y) {
+Window& Window::set_position(int x, int y) {
     BaseObject::set_position(x, y);
     SDL_SetWindowPosition(m_window, m_box.x, m_box.y);
+    return *this;
 }
 
-void Window::set_position(int x, int y, int width, int height) {
+Window& Window::set_position(int x, int y, int width, int height) {
     BaseObject::set_position(x, y, width, height);
     SDL_SetWindowPosition(m_window, m_box.x, m_box.y);
+    return *this;
 }
 
 Window& Window::set_width(int width) {
@@ -118,7 +132,8 @@ Window& Window::set_width(int width) {
     return *this;
 }
 
-void Window::set_height(int height) {
+Window& Window::set_height(int height) {
     BaseObject::set_height(height);
     SDL_SetWindowSize(m_window, m_box.w, m_box.h);
+    return *this;
 }
